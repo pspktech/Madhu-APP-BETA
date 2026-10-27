@@ -2,11 +2,12 @@ package com.example.portfolio.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Indigo = Color(0xFF4F46E5)
-val IndigoDark = Color(0xFF3730A3)
-val Teal = Color(0xFF0D9488)
-val TealDark = Color(0xFF115E59)
-val SurfaceLight = Color(0xFFF8FAFC)
-val OnSurface = Color(0xFF0F172A)
-val SurfaceDark = Color(0xFF0F172A)
-val OnSurfaceDark = Color(0xFFF1F5F9)
+val Primary = Color(0xFF4F46E5)
+val Secondary = Color(0xFF0D9488)
+val Tertiary = Color(0xFFF59E0B)
+val Background = Color(0xFFF8FAFC)
+val Surface = Color(0xFFFFFFFF)
+val OnPrimary = Color(0xFFFFFFFF)
+val OnSurface = Color(0xFF1E293B)
+val GradientStart = Color(0xFF4F46E5)
+val GradientEnd = Color(0xFF0D9488)
