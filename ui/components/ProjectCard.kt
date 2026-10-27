@@ -3,11 +3,13 @@ package com.example.portfolio.ui.components
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.example.portfolio.data.model.Project
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ProjectCard(project: Project) {
     val uriHandler = LocalUriHandler.current
@@ -19,7 +21,7 @@ fun ProjectCard(project: Project) {
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(Modifier.padding(16.dp)) {
-            Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     project.index,
                     style = MaterialTheme.typography.labelMedium,
@@ -36,7 +38,6 @@ fun ProjectCard(project: Project) {
             Text(project.description, style = MaterialTheme.typography.bodyMedium)
             Spacer(Modifier.height(10.dp))
 
-            @OptIn(ExperimentalLayoutApi::class)
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
                 verticalArrangement = Arrangement.spacedBy(6.dp)
