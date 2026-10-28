@@ -20,7 +20,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,7 +39,7 @@ import com.madhupatel.portfolio.ui.theme.GradientStart
 fun ProjectDetailScreen(project: Project, onBack: () -> Unit) {
     BackHandler(onBack = onBack)
     val uriHandler = LocalUriHandler.current
-    Scaffold(topBar = { SmallTopAppBar(title = { Text(project.title) }, navigationIcon = { IconButton(onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back") } }) }) { padding ->
+    Scaffold(topBar = { TopAppBar(title = { Text(project.title) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back") } }) }) { padding ->
         Column(Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).padding(16.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
             GlassCard(Modifier.fillMaxWidth().background(Brush.linearGradient(listOf(GradientStart, GradientEnd)), RoundedCornerShape(24.dp))) {
                 Column(Modifier.fillMaxWidth().padding(24.dp)) { Text(project.index, color = Color.White); Spacer(Modifier.height(8.dp)); Text(project.category, color = Color.White) }
@@ -47,10 +47,10 @@ fun ProjectDetailScreen(project: Project, onBack: () -> Unit) {
             Text(project.description, style = androidx.compose.material3.MaterialTheme.typography.bodyLarge)
             Text("Tech stack", style = androidx.compose.material3.MaterialTheme.typography.titleLarge)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) { project.tags.forEach { SuggestionChip(onClick = {}, label = { Text(it) }) } }
-            project.sourceUrl?.let { Button(Modifier.fillMaxWidth(), onClick = { uriHandler.openUri(it) }) { Text("View source code") } }
-            project.liveUrl?.let { Button(Modifier.fillMaxWidth(), onClick = { uriHandler.openUri(it) }) { Text("Visit live website") } }
-            project.apkUrl?.let { Button(Modifier.fillMaxWidth(), onClick = { uriHandler.openUri(it) }) { Text("Download APK") } }
-            project.telegramUrl?.let { Button(Modifier.fillMaxWidth(), onClick = { uriHandler.openUri(it) }) { Text("Get app on Telegram") } }
+            project.sourceUrl?.let { Button(onClick = { uriHandler.openUri(it) }, modifier = Modifier.fillMaxWidth()) { Text("View source code") } }
+            project.liveUrl?.let { Button(onClick = { uriHandler.openUri(it) }, modifier = Modifier.fillMaxWidth()) { Text("Visit live website") } }
+            project.apkUrl?.let { Button(onClick = { uriHandler.openUri(it) }, modifier = Modifier.fillMaxWidth()) { Text("Download APK") } }
+            project.telegramUrl?.let { Button(onClick = { uriHandler.openUri(it) }, modifier = Modifier.fillMaxWidth()) { Text("Get app on Telegram") } }
         }
     }
 }

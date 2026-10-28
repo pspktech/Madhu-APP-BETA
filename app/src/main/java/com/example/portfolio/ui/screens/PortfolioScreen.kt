@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -24,7 +25,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -58,7 +59,7 @@ fun PortfolioScreen(vm: PortfolioViewModel = viewModel()) {
     val blobs = rememberInfiniteTransition(label = "background-blobs")
     val drift by blobs.animateFloat(0f, 1f, infiniteRepeatable(tween(7000), RepeatMode.Reverse), label = "blob-drift")
     if (selectedProject != null) { ProjectDetailScreen(selectedProject!!, onBack = { selectedProject = null }); return }
-    Scaffold(topBar = { SmallTopAppBar(title = { Text("M / MADHU PATEL") }, actions = { IconButton({}) { Icon(Icons.Default.DarkMode, "Portfolio theme") } }) }, containerColor = Color.Transparent) { padding ->
+    Scaffold(topBar = { TopAppBar(title = { Text("M / MADHU PATEL") }, actions = { IconButton(onClick = {}) { Icon(Icons.Default.DarkMode, "Portfolio theme") } }) }, containerColor = Color.Transparent) { padding ->
         Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(com.madhupatel.portfolio.ui.theme.DeepNight, com.madhupatel.portfolio.ui.theme.Glass)))) {
             Box(Modifier.offset(x = (drift * 44 - 22).dp, y = (drift * 80).dp).size(210.dp).alpha(.18f).background(Color(0xFF5876FF), androidx.compose.foundation.shape.CircleShape))
             Box(Modifier.offset(x = (220 - drift * 55).dp, y = (360 - drift * 70).dp).size(180.dp).alpha(.13f).background(Color(0xFF17C7B3), androidx.compose.foundation.shape.CircleShape))
