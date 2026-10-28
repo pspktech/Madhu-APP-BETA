@@ -33,25 +33,16 @@ fun PortfolioScreen(vm: PortfolioViewModel = viewModel()) {
     ) { padding ->
         LazyColumn(
             state = listState,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
+            modifier = Modifier.fillMaxSize().padding(padding),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             item {
                 HeroSection(
                     state = state,
-                    onViewProjects = {
-                        scope.launch { listState.animateScrollToItem(3) }
-                    },
-                    onContact = {
-                        scope.launch {
-                            listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
-                        }
-                    }
+                    onViewProjects = { scope.launch { listState.animateScrollToItem(3) } },
+                    onContact = { scope.launch { listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1) } }
                 )
             }
-
             item {
                 Column(Modifier.padding(horizontal = 16.dp)) {
                     SectionTitle("About")
@@ -59,21 +50,10 @@ fun PortfolioScreen(vm: PortfolioViewModel = viewModel()) {
                     Text(state.about, style = MaterialTheme.typography.bodyLarge)
                 }
             }
-
             item { SkillsSection(state.skills) }
-
-            item {
-                Box(Modifier.padding(horizontal = 16.dp)) {
-                    SectionTitle("Projects")
-                }
-            }
-
-            items(state.projects.size) { index ->
-                ProjectCard(state.projects[index])
-            }
-
+            item { Box(Modifier.padding(horizontal = 16.dp)) { SectionTitle("Projects") } }
+            items(state.projects.size) { ProjectCard(state.projects[it]) }
             item { ContactSection(state.contacts) }
-
             item { Spacer(Modifier.height(24.dp)) }
         }
     }
