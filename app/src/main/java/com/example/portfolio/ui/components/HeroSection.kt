@@ -21,7 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.portfolio.R
-import com.example.portfolio.viewmodel.PortfolioUiState
+import com.example.portfolio.data.model.PortfolioUiState
 
 @Composable
 fun HeroSection(
