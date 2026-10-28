@@ -1,5 +1,9 @@
 package com.madhupatel.portfolio.ui.components
 
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -8,6 +12,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
@@ -22,11 +27,25 @@ fun GlassCard(
     shape: RoundedCornerShape = RoundedCornerShape(24.dp),
     content: @Composable BoxScope.() -> Unit
 ) {
+    val transition = rememberInfiniteTransition(label = "glass-border")
+    val sweep by transition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(tween(4200), RepeatMode.Reverse),
+        label = "glass-sweep"
+    )
+    val border = Brush.linearGradient(
+        listOf(
+            Color(0x558EA7FF).copy(alpha = .45f + sweep * .25f),
+            Color(0x665DE2C5).copy(alpha = .35f + (1f - sweep) * .25f),
+            Color(0x334F6B93)
+        )
+    )
     Box(
         modifier = modifier
             .shadow(18.dp, shape, ambientColor = Color.Black.copy(alpha = .22f), spotColor = Color.Black.copy(alpha = .34f))
             .background(Brush.linearGradient(listOf(GlassBright.copy(alpha = .88f), Glass.copy(alpha = .76f))), shape)
-            .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = .55f)), shape),
+            .border(BorderStroke(1.dp, border), shape),
         content = content
     )
 }

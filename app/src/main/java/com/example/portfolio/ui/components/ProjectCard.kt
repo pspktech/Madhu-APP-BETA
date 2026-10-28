@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilledTonalButton
@@ -24,19 +22,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import com.madhupatel.portfolio.data.model.Project
 
 @OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun ProjectCard(project: Project, position: Int, onViewDetails: (Project) -> Unit) {
     var appeared by remember { mutableStateOf(false) }
-    val scale by animateFloatAsState(if (appeared) 1f else .94f, tween(500 + position * 80, easing = FastOutSlowInEasing), label = "card-scale")
+    val pressedSource = remember { MutableInteractionSource() }
+    val pressed by pressedSource.collectIsPressedAsState()
+    val entrance by animateFloatAsState(if (appeared) 1f else .94f, tween(500 + position * 80, easing = FastOutSlowInEasing), label = "card-entrance")
+    val pressScale by animateFloatAsState(if (pressed) .985f else 1f, tween(120), label = "card-press")
     androidx.compose.runtime.LaunchedEffect(Unit) { appeared = true }
     val uriHandler = LocalUriHandler.current
+    val haptic = LocalHapticFeedback.current
+    val tap = { haptic.performHapticFeedback(HapticFeedbackType.LongPress) }
 
-    GlassCard(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp).graphicsLayer { scaleX = scale; scaleY = scale }) {
+    GlassCard(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp).graphicsLayer { scaleX = entrance * pressScale; scaleY = entrance * pressScale }) {
         Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(project.index, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.secondary)
@@ -48,11 +55,11 @@ fun ProjectCard(project: Project, position: Int, onViewDetails: (Project) -> Uni
                 project.tags.forEach { AssistChip(onClick = {}, label = { Text(it) }) }
             }
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                FilledTonalButton(onClick = { onViewDetails(project) }) { Text("View details") }
-                project.sourceUrl?.let { OutlinedButton(onClick = { uriHandler.openUri(it) }) { Text("Source") } }
-                project.liveUrl?.let { Button(onClick = { uriHandler.openUri(it) }) { Text("Live") } }
-                project.apkUrl?.let { OutlinedButton(onClick = { uriHandler.openUri(it) }) { Text("APK") } }
-                project.telegramUrl?.let { OutlinedButton(onClick = { uriHandler.openUri(it) }) { Text("Get app") } }
+                FilledTonalButton(onClick = { tap(); onViewDetails(project) }, interactionSource = pressedSource) { Text("View details") }
+                project.sourceUrl?.let { OutlinedButton(onClick = { tap(); uriHandler.openUri(it) }) { Text("Source") } }
+                project.liveUrl?.let { Button(onClick = { tap(); uriHandler.openUri(it) }) { Text("Live") } }
+                project.apkUrl?.let { OutlinedButton(onClick = { tap(); uriHandler.openUri(it) }) { Text("APK") } }
+                project.telegramUrl?.let { OutlinedButton(onClick = { tap(); uriHandler.openUri(it) }) { Text("Get app") } }
             }
         }
     }
