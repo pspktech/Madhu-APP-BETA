@@ -1,5 +1,6 @@
 package com.example.portfolio.ui.components
 
+import androidx.compose.foundation.clickable // 👈 ఇదే మిస్ అయ్యింది
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
@@ -15,10 +16,11 @@ import com.example.portfolio.data.model.Contact
 @Composable
 fun ContactSection(contacts: List<Contact>) {
     val uriHandler = LocalUriHandler.current
-
+    
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         SectionTitle("Contact")
         Spacer(Modifier.height(8.dp))
+        
         contacts.forEach { contact ->
             ListItem(
                 headlineContent = { Text(contact.type) },
@@ -28,15 +30,13 @@ fun ContactSection(contacts: List<Contact>) {
                         imageVector = when (contact.icon) {
                             "github" -> Icons.Filled.Link
                             "telegram" -> Icons.Filled.Email
-                            "website" -> Icons.Filled.Person
-                            else -> Icons.Filled.Link
+                            else -> Icons.Filled.Person
                         },
                         contentDescription = null
                     )
                 },
-                modifier = Modifier.clickable {
-                    uriHandler.openUri(contact.url)
-                }
+                // ఇక్కడ clickable వాడుతున్నాం, అందుకే పైన import చేశాం
+                modifier = Modifier.clickable { uriHandler.openUri(contact.url) } 
             )
         }
     }
