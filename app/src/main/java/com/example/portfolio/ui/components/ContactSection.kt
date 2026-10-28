@@ -1,43 +1,39 @@
-package com.example.portfolio.ui.components
+package com.madhupatel.portfolio.ui.components
 
-import androidx.compose.foundation.clickable // 👈 ఇదే మిస్ అయ్యింది
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Link
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import com.example.portfolio.data.model.Contact
+import com.madhupatel.portfolio.data.model.Contact
 
 @Composable
 fun ContactSection(contacts: List<Contact>) {
     val uriHandler = LocalUriHandler.current
-    
-    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        SectionTitle("Contact")
-        Spacer(Modifier.height(8.dp))
-        
-        contacts.forEach { contact ->
-            ListItem(
-                headlineContent = { Text(contact.type) },
-                supportingContent = { Text(contact.value) },
-                leadingContent = {
-                    Icon(
-                        imageVector = when (contact.icon) {
-                            "github" -> Icons.Filled.Link
-                            "telegram" -> Icons.Filled.Email
-                            else -> Icons.Filled.Person
-                        },
-                        contentDescription = null
-                    )
-                },
-                // ఇక్కడ clickable వాడుతున్నాం, అందుకే పైన import చేశాం
-                modifier = Modifier.clickable { uriHandler.openUri(contact.url) } 
-            )
+    GlassCard(Modifier.padding(horizontal = 16.dp)) {
+        Column(Modifier.padding(vertical = 10.dp)) {
+            Text("Let's connect", style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(horizontal = 16.dp))
+            Spacer(Modifier.height(4.dp))
+            contacts.forEach { contact ->
+                ListItem(
+                    headlineContent = { Text(contact.type) },
+                    supportingContent = { Text(contact.value, color = MaterialTheme.colorScheme.onSurfaceVariant) },
+                    leadingContent = { Icon(when (contact.icon) { "telegram" -> Icons.Default.Email; "website" -> Icons.Default.Language; else -> Icons.Default.Link }, null) },
+                    modifier = Modifier.clickable { uriHandler.openUri(contact.url) }
+                )
+            }
         }
     }
 }

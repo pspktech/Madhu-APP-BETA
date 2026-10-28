@@ -1,6 +1,6 @@
-package com.example.portfolio.data.repository
+package com.madhupatel.portfolio.data.repository
 
-import com.example.portfolio.data.model.*
+import com.madhupatel.portfolio.data.model.*
 
 class PortfolioRepository {
     fun getPortfolio(): PortfolioUiState = PortfolioUiState(

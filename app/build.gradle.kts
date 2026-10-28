@@ -4,17 +4,15 @@ plugins {
 }
 
 android {
-    namespace = "com.example.portfolio"
+    namespace = "com.madhupatel.portfolio"
     compileSdk = 34
-
     defaultConfig {
-        applicationId = "com.example.portfolio"
+        applicationId = "com.madhupatel.portfolio"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1.0"
     }
-
     buildTypes {
         release {
             isMinifyEnabled = false

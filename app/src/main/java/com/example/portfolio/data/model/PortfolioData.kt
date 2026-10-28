@@ -1,4 +1,4 @@
-package com.example.portfolio.data.model
+package com.madhupatel.portfolio.data.model
 
 data class Skill(val name: String)
 

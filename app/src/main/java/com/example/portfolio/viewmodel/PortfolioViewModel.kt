@@ -1,8 +1,8 @@
-package com.example.portfolio.viewmodel
+package com.madhupatel.portfolio.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.portfolio.data.model.PortfolioUiState
-import com.example.portfolio.data.repository.PortfolioRepository
+import com.madhupatel.portfolio.data.model.PortfolioUiState
+import com.madhupatel.portfolio.data.repository.PortfolioRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
